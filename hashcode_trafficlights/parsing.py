@@ -1,4 +1,4 @@
-from collections import deque
+from collections import defaultdict, deque
 from typing import Iterator, TextIO
 
 def read_metadata(file_handle: TextIO) -> dict:
@@ -33,12 +33,22 @@ def read_cars(file_handle: TextIO, num_cars: int) -> Iterator[dict]:
 
 def read_execution_plan(file_handle: TextIO) -> Iterator[dict]:
     num_intersections = int(file_handle.readline())
-    
+    schedule = defaultdict(list)
+    for _ in range(num_intersections):
+        intersection_id = int(file_handle.readline())
+        num_streets_in_intersection = int(file_handle.readline())
+        for _ in range(num_streets_in_intersection):
+            street_name, green_time = file_handle.readline().split()
+            green_time = int(green_time)
+            schedule[intersection_id].append(
+                (street_name, green_time)
+            )
+    return schedule
 
 if __name__ == '__main__':
-
+    
     # Reading simulation data
-    example_filepath = "/home/leonardo/fun/kaggle/example.in"
+    example_filepath = "/home/leonardo/fun/competitions/hashcode_trafficlights/input/hashcode.in"
     fp = open(example_filepath, 'r')
     simulation_metadata = read_metadata(fp)
     streets = read_streets(fp, simulation_metadata['num_streets'])
@@ -46,7 +56,7 @@ if __name__ == '__main__':
     fp.close()
 
     # Reading simulation execution schedule
-    schedule_filepath = "/home/leonardo/fun/kaggle/example.in"
+    schedule_filepath = "/home/leonardo/fun/competitions/hashcode_trafficlights/input/example_schedule.in"
     fp = open(schedule_filepath, 'r')
     execution_plan = read_execution_plan(fp)
     fp.close()
