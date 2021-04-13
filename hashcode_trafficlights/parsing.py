@@ -5,7 +5,7 @@ def read_metadata(file_handle: TextIO) -> dict:
     mapped_metadata = map(int, file_handle.readline().split())
     return dict(
         zip(
-            ['simulaton_duration', 'num_intersections', 'num_streets', 'num_cars', 'bonus_points'],
+            ['simulation_duration', 'num_intersections', 'num_streets', 'num_cars', 'bonus_points'],
             mapped_metadata
         )
     )

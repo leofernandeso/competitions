@@ -30,7 +30,10 @@ class City:
         for source, dest, street_data in self.plan.edges(data=True):
             self.street_map[ street_data['name'] ] = (source, dest)
 
-    def get_edge(self, edge):
+    def get_intersection(self, intersection: int):
+        return self.plan.nodes[intersection]
+
+    def get_street(self, edge):
         if isinstance(edge, tuple):
             return self.plan.edges[edge]
         elif isinstance(edge, str):
