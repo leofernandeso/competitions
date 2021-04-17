@@ -26,9 +26,10 @@ def read_cars(file_handle: TextIO, num_cars: int) -> Iterator[dict]:
         car_info = file_handle.readline()
         car_info = car_info.split()
         num_streets, path = int(car_info[0]), car_info[1:]
+        complete_path = path.copy()
         path = deque(path)
         yield {
-            'id': i, 'num_streets': num_streets, 'path': path
+            'id': i, 'num_streets': num_streets, 'path': path, 'complete_path': complete_path
         }
 
 def read_execution_plan(file_handle: TextIO) -> Iterator[dict]:

@@ -39,6 +39,9 @@ class City:
         elif isinstance(edge, str):
             edge_ix = self.street_map[edge]
             return self.plan.edges[edge_ix[0], edge_ix[1], 0]
+    
+    def intersection_in_streets(self, intersection_num: int):
+        return self.plan.in_edges(intersection_num, data=True)
 
     @property
     def intersections(self):
