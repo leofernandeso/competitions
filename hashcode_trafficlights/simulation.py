@@ -29,6 +29,12 @@ class CitySimulation:
             num_intersection: intersection['cycle'] for num_intersection, intersection in self.city.intersections
         }
 
+    def run(self) -> int:
+        scores = []
+        while self.timestep < self.simulation_duration:
+            scores.append(self.step())
+        return scores
+
     def initialize_simulation(self) -> None:
         self.timestep = 0
         self.score = 0
@@ -98,10 +104,8 @@ class CitySimulation:
                 if car['time_left_to_cross_current_street'] > 0:
                     car['time_left_to_cross_current_street'] -= 1
 
-    def step(self):
-
+    def step(self) -> int:
         logging.info(f"T = {self.timestep}:")
-
         if self.timestep == self.simulation_duration:
             log_str = f"Finished simulation. - Final score: {self.score}"
             logging.info(log_str)
@@ -114,7 +118,8 @@ class CitySimulation:
                 self.set_street_green_light(next_green_street_name)
         self.travel_cars()
         self.timestep += 1
-        
+        return self.score
+
 if __name__ == '__main__':
 
     example_filepath = "/home/leonardo/fun/competitions/hashcode_trafficlights/input/example.in"
